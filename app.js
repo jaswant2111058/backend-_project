@@ -1,8 +1,39 @@
 const express= require("express");
 const app = express();
 
-const mongoose = require("mongoose");
+const path = require("path");
 
-mongoose.connect("mongodb+srv://cluster0:8766263593%40Jk@cluster0.tjqmln6.mongodb.net/test",
-).then(()=> console.log("connected ...."))
-.catch(()=>console.log("not connected"))
+require("./connection/conn");
+const static1 = path.join(__dirname,"./login")
+const static2 = path.join(__dirname,"./home_page")
+const static3 = path.join(__dirname,"./new registration")
+
+ app.use(express.static(static1));
+ app.use(express.static(static3));
+ app.use(express.static(static2));
+ app.get("/",function(req,res){
+      
+    res.sendFile(static2+"/home_page.html");
+});
+app.get("/login",function(req,res){
+      
+    res.sendFile(static1+"/login.html");
+});
+
+app.get("/newregistration",function(req,res){
+      
+    res.sendFile(static3+"/new_registration.html");
+});
+app.get("/registration",function(req,res){
+
+    try{
+        const user = new student(req.body);
+        const adnew= user.save();
+        res.status(201).send(adnew);
+    }catch(e){
+        res.status(400).send(e);
+    }
+})
+app.listen(8000, function(){
+    console.log("Server is up");
+})
