@@ -5,7 +5,7 @@ const stdschema=new mongoose.Schema({
         type:String,
     },
     student_number:{
-        type:String,
+        type:Number,
         unique:[true,"Student number already exist"],  
     },
     student_Roll:{
